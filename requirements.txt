@@ -1,0 +1,7 @@
+argparse==1.2.1
+bottle==0.12.7
+stevedore==0.15
+virtualenv==1.11.6
+virtualenv-clone==0.2.5
+virtualenvwrapper==4.3
+wsgiref==0.1.2

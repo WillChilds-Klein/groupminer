@@ -1,3 +1,74 @@
+Development
+=====================
+## Git workflow:
+
+1. Checkout code
+
+  `git pull`
+
+2. Work on changes on feature branch
+
+  `git checkout -b featurebranch`
+
+3. Commit changes
+
+  `git commit -am "changes"`
+
+4. Rebase branch (this gives us a clean commit log, no extra merge commits)
+
+  ```
+  git checkout master
+  git pull
+  git checkout featurebranch
+  git rebase -i master
+  (And fix any conflicts in interactive vim console)
+  ```
+
+5. Merge branch into master (because of rebase, will not be merge conflicts here)
+
+  ```
+  git checkout master
+  git merge featurebranch
+  ```
+
+6. Push!
+
+  `git push`
+
+## Virtualenv:
+
+Python uses virtualenv to manage packages.
+
+First time using (this is assuming you don't have virtualenvburrito)
+
+  ```
+  cd src
+  virtualenv --no-site-packages groupthink
+  source groupthink/bin/activate
+  pip install -r requirements.txt
+  ```
+
+After installing a dependency, while in virtualenv:
+
+  `pip freeze > requirements.txt`
+
+## "Building"/Running
+
+Generate a `./Groupthink` executable:
+
+  `make`
+
+Run the `./Groupthink` executable (later this can do sims and stuff):
+
+  `make run`
+
+Clean the `.pyc` files and `./Groupthink` executable:
+
+  `make clean`
+
+# Please see source documentation in src/README.md
+
+
 GroupThink
 ===========================
 Will Childs-Klein & Miles Richardson
@@ -39,8 +110,8 @@ Nodes are incentivized to act in good faith (report accurate estimates to the
 best of their ability) because doing so over time will cause successful nodes to
 accrue "followers", giving the successful nodes greater sway in coin
 recommendation on the network. Symmetrically, nodes who perform poorly over time
-(either by malice or ineptitude) will be regarded as less reputable, and 
-therefore have respectively less sway over other nodes. 
+(either by malice or ineptitude) will be regarded as less reputable, and
+therefore have respectively less sway over other nodes.
 
 Coins with high degrees of mining activity tend to attract the attention of
 market prospectors. Such attention often results in an influx of capital into
@@ -48,7 +119,7 @@ the coin's market capitalization, compounding profitability. But, as more nodes
 mine a given currency, that currecy's mining difficulty will increase, reducing
 profitability. GroupThink collectively senses this, and the coin's ranking
 drops, yielding new coin recommendations as other coins climb the rankings to
-fill the void. 
+fill the void.
 
 Components
 ----------
@@ -142,17 +213,17 @@ Potential Vulnerabilities
 ### Sybil-Brutus Attack ###
   * Brutus spins up large number puppet GroupThink instances and controls their
     expected profitability votes from a single location.
-  * Brutus's profitability expectations pretty smart, and his nodes generate 
-    very accurate estimates which appeal to many nodes' respctive dispositions 
-    (utility criteria).  
+  * Brutus's profitability expectations pretty smart, and his nodes generate
+    very accurate estimates which appeal to many nodes' respctive dispositions
+    (utility criteria).
   * Brutus's nodes operate in (seemingly) good faith for a long period of time,
-    gaining a strong reputation among like-minded (similar utility criteria) 
+    gaining a strong reputation among like-minded (similar utility criteria)
     nodes in GroupThink.
   * Brutus releases her new alt-coin, EtTuCoin, and inflates her nodes' expected
     profitability for EtTuCoin.
   * Though many nodes on the network will then be operating on bad-faith
-    information, mining coins of sub-optimal profitability, their internal 
-    utility expected profitabilities and reduce the weight for his nodes 
+    information, mining coins of sub-optimal profitability, their internal
+    utility expected profitabilities and reduce the weight for his nodes
     accordingly.
 
 ### Cold Start Attack ###
@@ -186,14 +257,14 @@ Milestones
   [ ] Subjective Utility Function
 
 ### Part 3 ###
-  [ ] Vote Aggregator 
+  [ ] Vote Aggregator
   [ ] Mining Suite
 
 Further Work
 ------------
 ### Verifiable History ###
-  * use a shared blockchain as a means of verifying the recommendation history 
-    of individual nodes, so that a new node joining the network can accurately 
+  * use a shared blockchain as a means of verifying the recommendation history
+    of individual nodes, so that a new node joining the network can accurately
     gauge a subjective reputation of its peers.
   * this eliminates the possibility of a node falsifying its voting history.
 
