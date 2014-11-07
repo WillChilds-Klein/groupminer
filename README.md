@@ -4,14 +4,14 @@ Will Childs-Klein & Miles Richardson
 
 Table of Contents
 -----------------
-[1. Overview](#Overview)
-[2. Incentive Structures](#Incentive-Structures)
-[3. Components](#Components)
-[4. Technologies](#Technologies)
-[5. Potential Vulnerabilities](#Potential-Vulnerabilities)
-[6. Milestones](#Milestones)
-[7. Further Work](#Further-Work)
-[8. Miscellaneous](#Miscellaneous)
+  1. [Overview](#Overview)
+  2. [Incentive Structures](#Incentive-Structures)
+  3. [Components](#Components)
+  4. [Technologies](#Technologies)
+  5. [Potential Vulnerabilities](#Potential-Vulnerabilities)
+  6. [Milestones](#Milestones)
+  7. [Further Work](#Further-Work)
+  8. [Miscellaneous](#Miscellaneous)
 
 Overview
 --------
