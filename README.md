@@ -68,6 +68,9 @@ Clean the `.pyc` files and `./Groupthink` executable:
 
 # Please see source documentation in src/README.md
 
+[//]: # (TODO: factor original proposal into overview/paper file)
+[//]: # (TODO: integrate math rendering support somehow)
+[//]: # (TODO: present messages as they would be formatted in valid JSON)
 
 GroupThink
 ===========================
@@ -269,16 +272,13 @@ Further Work
   * this eliminates the possibility of a node falsifying its voting history.
 
 ### Rapid Liquidator ###
-  * Because profitability is often correlated with price, it would be
-    advantageous for nodes to automatically liquidate coins they mine to BTC or
-    USD
-  * node defines rules of when to liquidate
-  * logical time would be immediately liquidating entire chunk of mined coins
-    the second GroupThink moves away from a coin
+  * Because price is often correlated with profitability, it would be
+    advantageous for nodes to automatically liquidate (or otherwise exchange) the coins they mine to BTC or
+    USD at the peak of their profitability, as recommended by the GroupThink network.
   * could potentially set up the liquidator to flow mined capital through alt-
     coins as they are recommended/mined. in this case, Rapid Liquidator would be
     transferring currency through exchanges per the mining recommendations of
-    GroupThink.
+    GroupThink, contributing to it's "buzz" and attracting prospectors.
 
 Miscellaneous
 -------------
