@@ -14,6 +14,9 @@ class Opinion:
         '''
         self.groupthink = groupthink
 
+    def process_request(data):
+        print 'got process_request in opinion.py!!'
+
     
 def create_opinion():
     opinion = Opinion()

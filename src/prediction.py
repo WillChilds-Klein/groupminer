@@ -14,6 +14,9 @@ class Prediction:
         '''
         self.groupthink = groupthink
 
+    def process_request(data):
+        print 'got process_request in prediction.py!!'
+
     
 def create_prediction():
     prediction = Prediction()
