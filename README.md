@@ -42,13 +42,12 @@ Python uses virtualenv to manage packages.
 First time using (this is assuming you don't have virtualenvburrito)
 
   ```
-  cd src
   virtualenv --no-site-packages groupthink
   source groupthink/bin/activate
   pip install -r requirements.txt
   ```
 
-After installing a dependency, while in virtualenv:
+After installing a dependency, while in virtualenv and the GroupMiner application root directory:
 
   `pip freeze > requirements.txt`
 
