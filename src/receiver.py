@@ -24,14 +24,16 @@ class Receiver:
             error).
         '''
         try:
-            msgdata = kwargs['data']
+            message = kwargs['data']
         except KeyError:
-            msgdata = None
+            message = None
 
         print 'Receiver got message:'
 
         from pprint import pprint
-        pprint(msgdata)
+        pprint(message)
+
+        self.groupthink.process_message(message)
 
 
 def create_receiver():

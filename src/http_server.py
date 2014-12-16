@@ -32,8 +32,8 @@ class Server:
         self.groupthink.register_event('/mailbox')
 
     def build_routes(self):
-        ''' Tell bottle which routes to listen to. '''
-
+        ''' Tell bottle which routes to listen to. 
+        '''
         @bottle.route('/mailbox', method='POST')
         def mailbox():
             ''' All messages from peers go to /mailbox.
@@ -57,7 +57,8 @@ class Server:
 
 
 def create_server():
-    ''' Factory method for Server objects. Used by main()'''
+    ''' Factory method for Server objects. Used by main()
+    '''
     server = Server()
 
     return server

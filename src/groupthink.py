@@ -2,6 +2,7 @@
 
 # Global context object
 
+import uuid
 
 class StartupError(Exception):
 
@@ -17,7 +18,11 @@ class Groupthink:
     def __init__(self, *args, **kwargs):
         self.server = None
         self.receiver = None
+        self.history = None
+        self.prediction = None
+        self.opinion = None
         self.handlers = {}
+        self.uuid = uuid.uuid4()
 
     def run(self):
         ready = (self.server)
@@ -25,6 +30,22 @@ class Groupthink:
             raise StartupError("Starting groupthink prematurely (server?)")
 
         self.server.run()
+
+    def process_message(message):
+        ''' process incoming message
+        '''
+        msgtype = message["type"]
+
+        if msgtype == "vote":
+            history.add_score(message["data"])
+        elif msgtype == "opinion":
+            pass # this type is only used for external auditing.
+        elif msgtype == "vote_request":
+            prediction.process_request(message["data"])
+        elif msgtype == "opinion_request":
+            opinion.process_request(message["data"])
+        else:
+            pass # TODO: raise bad mesage error
 
     def register_event(self, event):
         if event not in self.handlers.keys():
@@ -61,6 +82,28 @@ class Groupthink:
 
         receiver.attach_groupthink(self)
         self.receiver = receiver
+
+    def attach_history(self, history):
+        if self.history:
+            raise StartupError("Trying to attach second history.")
+
+        history.attach_groupthink(self)
+        self.history = history
+
+    def attach_prediction(self, prediction):
+        if self.prediction:
+            raise StartupError("Trying to attach second prediction.")
+
+        prediction.attach_groupthink(self)
+        self.prediction = prediction
+
+    def attach_opinion(self, opinion):
+        if self.opinion:
+            raise StartupError("Trying to attach second opinion.")
+
+        opinion.attach_groupthink(self)
+        self.opinion = opinion
+
 
 
 def create_groupthink():
