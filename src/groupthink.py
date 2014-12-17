@@ -4,9 +4,12 @@
 
 import uuid
 
+
 class StartupError(Exception):
+
     ''' Error occurred when starting node (context object).
     '''
+
     def __init__(self, message):
         self.message = message
 
@@ -63,8 +66,8 @@ class Groupthink:
 
     def register_handler(self, event, callback):
         if event not in self.handlers.keys():
-            print ('Warning: Registering handler "%s" on unknown event "%s".' 
-                    % (callback, event))
+            print('Warning: Registering handler "%s" on unknown event "%s".'
+                  % (callback, event))
             self.register_event(event)
 
         self.handlers[event].append(callback)
