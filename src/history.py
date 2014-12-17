@@ -1,5 +1,8 @@
 # history.py
 
+import uuid
+import pprint
+
 class History:
 
     ''' manages histories of peers' votes.
@@ -14,16 +17,20 @@ class History:
         '''
         self.groupthink = groupthink
 
-    def add_vote(vote):
-        ''' Add vote to internal datastructures. This method assumes that
-            msgdata is list of form: [node_uuid,coin_id,time,score]
+    def add_vote(self, data):
+        ''' parse vote payload from message and add vote data to internal 
+            datastructures. 
         '''
-        node_uuid = vote[0]
-        coin_id = vote[1]
-        time = vote[2]
-        score = vote[3]
+        print 'add_vote: adding vote data to history:'
+        pprint.pprint(data, indent=1)
+        print 'BANANA PHONE'
+
+        coin_id = str(data['coin_id'])
+        time = int(data['time'])
+        node_uuid = uuid.UUID(data['uuid'])
+        score = float(data['score'])
         
-        self.vote_history[node_uuid][coin_id] = [time,score]
+        self.vote_history[coin_id, time] = (node_uuid, score)
 
 
 def create_history():

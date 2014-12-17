@@ -4,7 +4,7 @@
 
 import bottle
 import json
-
+import pprint
 
 class Server:
 
@@ -16,6 +16,7 @@ class Server:
 
     def __init__(self):
         self.app = None
+        self.debug = None
 
     def attach_groupthink(self, groupthink):
         ''' Attach to a Groupthink insance and register event handlers.
@@ -41,19 +42,23 @@ class Server:
                 event chain for the /mailbox event.
             '''
             try:
-                data = json.loads(bottle.request.body.read())
+                json_data = json.loads(bottle.request.body.read())
             except:
                 bottle.abort(code=400, text='Invalid JSON.')
 
             # Start the event chain
-            self.groupthink.process_event('/mailbox', data=data)
+            self.groupthink.process_event('/mailbox', data=json_data)
 
             # Return successfully to the user
             return bottle.HTTPResponse(status=200,
-                                       body='{"status": "success"}')
+                                       body='[{"status": "success"},\
+                                              {"class": "http_server"},\
+                                              {"method": "build_routes"')
 
     def run(self, **kwargs):
-        self.app = bottle.run(**kwargs)
+        self.app = bottle.run(reloader=self.groupthink.debug, \
+                              port=self.groupthink.port,      \
+                              **kwargs)
 
 
 def create_server():

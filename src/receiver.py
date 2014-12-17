@@ -1,6 +1,7 @@
 # receiver.py
 # Responsible for handling incoming messages
 
+import pprint
 
 class Receiver:
 
@@ -28,12 +29,11 @@ class Receiver:
         except KeyError:
             message = None
 
-        print 'Receiver got message:'
+        # print 'Receiver got message:'
+        # pprint.pprint(message)
 
-        from pprint import pprint
-        pprint(message)
-
-        self.groupthink.process_message(message)
+        if not message == None:
+            self.groupthink.process_message(message)
 
 
 def create_receiver():

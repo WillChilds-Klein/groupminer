@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd src
-python main.py
+python main.py "$@"

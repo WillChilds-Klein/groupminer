@@ -1,5 +1,8 @@
 # opinion.py
 
+import requests
+import bottle
+
 class Opinion:
 
     ''' manages histories of peers' votes.
@@ -14,7 +17,7 @@ class Opinion:
         '''
         self.groupthink = groupthink
 
-    def process_request(data):
+    def process_request(self, data):
         print 'got process_request in opinion.py!!'
 
     

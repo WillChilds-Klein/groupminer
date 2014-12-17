@@ -22,28 +22,47 @@ class Groupthink:
         self.prediction = None
         self.opinion = None
         self.handlers = {}
-        self.uuid = uuid.uuid4()
+
+        try:
+            clargs = kwargs['clargs']
+        except KeyError:
+            print 'oh noes! no clargs passed to Groupthink object on init!'
+            clargs = None
+
+        self.port = clargs['port']
+        self.uuid = uuid.UUID(clargs['uuid_str'])
+        if self.uuid == None:
+            self.uuid = uuid.uuid4()
+        self.debug = clargs['debug']
 
     def run(self):
+        ''' start the server
+        '''
+        print 'port: %s' % self.port
+        print 'uuid: %s' % self.uuid
+        print 'debug: %s\n' % self.debug
+
         ready = (self.server)
         if not ready:
             raise StartupError("Starting groupthink prematurely (server?)")
 
         self.server.run()
 
-    def process_message(message):
-        ''' process incoming message
+    def process_message(self, message):
+        ''' process incoming message by stripping out data and passing it to
+            relevant method.
         '''
         msgtype = message["type"]
+        print 'processing message of type: %s' % msgtype
 
         if msgtype == "vote":
-            history.add_score(message["data"])
-        elif msgtype == "opinion":
+            self.history.add_vote(message['data'])
+        elif msgtype == 'opinion':
             pass # this type is only used for external auditing.
-        elif msgtype == "vote_request":
-            prediction.process_request(message["data"])
-        elif msgtype == "opinion_request":
-            opinion.process_request(message["data"])
+        elif msgtype == 'vote_request':
+            self.prediction.process_request(message['data'])
+        elif msgtype == 'opinion_request':
+            self.opinion.process_request(message['data'])
         else:
             pass # TODO: raise bad mesage error
 
@@ -105,7 +124,6 @@ class Groupthink:
         self.opinion = opinion
 
 
-
-def create_groupthink():
-    groupthink = Groupthink()
+def create_groupthink(clargs=None):
+    groupthink = Groupthink(clargs=clargs)
     return groupthink
