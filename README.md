@@ -1,3 +1,30 @@
+Testing
+====================
+## Launch a cluster
+Launch an N instance cluster using the launch.py controller, like so:
+  
+  ```
+  python controllers/launch.py --n N --p STARTINGPORT
+  ```
+
+Or with preset N = 10:
+
+  ```
+  make launch
+  ```
+
+This script will try to start N processes with increasing sequential port
+numbers, starting at STARTINGPORT. It also attempts to ping every node
+using the /ping endpoint.
+
+Further testing infrastructure should build on this.
+
+**Warning**: Note that this leaves zomebie processes. Easiest cleanup
+is `make clean` which calls `pkill -f main.py`
+
+Each port process has a logfile at `logs/node-PORT.log`, which `make clean`
+deletes.
+
 Development
 =====================
 ## Git workflow:
