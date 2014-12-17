@@ -9,7 +9,9 @@ def main():
     '''
 
     linesep = '--------------------------------------------------\n\n'
-    endpoint = 'http://127.0.0.1:8080/mailbox'
+    remote_host = 'localhost'
+    remote_port = 1234
+    endpoint = 'http://' + remote_host + ':' + str(remote_port) + '/mailbox'
     tests = []
 
 
@@ -19,7 +21,7 @@ def main():
     test_coin = 'BTC'
     test_time = 12314121235
     test_score = 0.9
-    test_IP = 'localhost'
+    test_host = 'localhost'
     test_port = 9090
 
 
@@ -32,7 +34,7 @@ def main():
                     'score':test_score
                 },
                 'sender':{
-                    'IP':test_IP,
+                    'host':test_host,
                     'port':test_port
                 }
             }
@@ -44,7 +46,7 @@ def main():
                     'uuid':test_uuid
                 },
                 'sender':{
-                    'IP':test_IP,
+                    'host':test_host,
                     'port':test_port
                 }
             }
@@ -56,7 +58,7 @@ def main():
                     'uuid':test_uuid
                 },
                 'sender':{
-                    'IP':test_IP,
+                    'host':test_host,
                     'port':test_port
                 }
             }

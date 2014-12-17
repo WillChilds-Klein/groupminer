@@ -35,6 +35,7 @@ class Server:
         self.groupthink.register_event('/vote_recieved')
         self.groupthink.register_event('/vote_requested')
         self.groupthink.register_event('/opinion_requested')
+        self.groupthink.register_event('/send')
 
     def build_routes(self):
         ''' Tell bottle which routes to listen to.
@@ -51,10 +52,13 @@ class Server:
                 bottle.abort(code=400, text='Invalid JSON.')
 
             # Start the event chain
-            self.groupthink.process_event(
-                '/mailbox', data=json_data, request=bottle.request)
+            self.groupthink.process_event('/mailbox', data=json_data)
 
             # Return successfully to the user
+            return bottle.HTTPResponse(status=200,
+                                       body='{"status": "success"}')
+        @bottle.post('/ping')
+        def ping():
             return bottle.HTTPResponse(status=200,
                                        body='{"status": "success"}')
 
