@@ -6,6 +6,7 @@ import bottle
 import json
 import pprint
 
+
 class Server:
 
     ''' Responsible for serving all HTTP requests and returning responses.
@@ -36,7 +37,7 @@ class Server:
         self.groupthink.register_event('/opinion_requested')
 
     def build_routes(self):
-        ''' Tell bottle which routes to listen to. 
+        ''' Tell bottle which routes to listen to.
         '''
         @bottle.post('/mailbox')
         def mailbox():
@@ -50,7 +51,8 @@ class Server:
                 bottle.abort(code=400, text='Invalid JSON.')
 
             # Start the event chain
-            self.groupthink.process_event('/mailbox', data=json_data)
+            self.groupthink.process_event(
+                '/mailbox', data=json_data, request=bottle.request)
 
             # Return successfully to the user
             return bottle.HTTPResponse(status=200,

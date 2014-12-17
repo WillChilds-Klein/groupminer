@@ -3,9 +3,12 @@
 
 import pprint
 
+
 class MessageError(Exception):
+
     ''' Error caused by bad incoming message.
     '''
+
     def __init__(self, message):
         self.message = message
 
@@ -31,6 +34,9 @@ class Receiver:
             be a valid JSON object (otherwise the user would have gotten an
             error).
         '''
+
+        request = kwargs['request']
+
         try:
             message = kwargs['data']
         except KeyError:
@@ -43,7 +49,7 @@ class Receiver:
                                               data=message['data'],
                                               sender=message['sender'])
             elif msgtype == 'opinion':
-                pass # this type is only used for external auditing.
+                pass  # this type is only used for external auditing.
             elif msgtype == 'vote_request':
                 self.groupthink.process_event('/vote_requested', 
                                               data=message['data'],
