@@ -2,6 +2,7 @@
 
 import requests
 import bottle
+import pprint
 
 class Prediction:
 
@@ -19,8 +20,15 @@ class Prediction:
         self.groupthink.register_handler(event='/vote_requested',
                                          callback=self.process_request)
 
-    def process_request(self, data):
+    def process_request(self, data, sender):
         print 'got process_request in prediction.py!!'
+
+        print 'data:'
+        pprint.pprint(data)
+
+        print 'sender:'
+        pprint.pprint(sender)
+
 
     
 def create_prediction():
