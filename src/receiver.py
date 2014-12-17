@@ -37,19 +37,21 @@ class Receiver:
             message = None
         else:
             msgtype = message["type"]
-            print 'processing message of type: %s' % msgtype
 
             if msgtype == "vote":
                 self.groupthink.process_event('/vote_recieved', 
-                                              data=message['data'])
+                                              data=message['data'],
+                                              sender=message['sender'])
             elif msgtype == 'opinion':
                 pass # this type is only used for external auditing.
             elif msgtype == 'vote_request':
                 self.groupthink.process_event('/vote_requested', 
-                                              data=message['data'])
+                                              data=message['data'],
+                                              sender=message['sender'])
             elif msgtype == 'opinion_request':
                 self.groupthink.process_event('/opinion_requested', 
-                                              data=message['data'])
+                                              data=message['data'],
+                                              sender=message['sender'])
             else:
                 raise MessageError('got bad message!')
 

@@ -19,10 +19,10 @@ class Opinion:
         self.groupthink.register_handler(event='/opinion_requested',
                                          callback=self.process_request)
 
-    def process_request(self, data):
+    def process_request(self, data, sender):
         print 'got process_request in opinion.py!!'
 
-    
+        
 def create_opinion():
     opinion = Opinion()
     return opinion

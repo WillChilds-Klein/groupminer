@@ -19,25 +19,53 @@ def main():
     test_coin = 'BTC'
     test_time = 12314121235
     test_score = 0.9
+    test_IP = 'localhost'
+    test_port = 9090
 
 
-    test1 = {'type':'vote','data':{'uuid':test_uuid,     \
-                                   'coin_id':test_coin, \
-                                   'time':test_time,    \
-                                   'score':0.9}}
+    test1 = {   
+                'type':'vote',
+                'data':{
+                    'uuid':test_uuid,
+                    'coin_id':test_coin,
+                    'time':test_time,
+                    'score':test_score
+                },
+                'sender':{
+                    'IP':test_IP,
+                    'port':test_port
+                }
+            }
     tests.append(test1)
 
-    test2 = {'type':'vote_request','data':{'uuid':test_uuid}}
+    test2 = {
+                'type':'vote_request',
+                'data':{
+                    'uuid':test_uuid
+                },
+                'sender':{
+                    'IP':test_IP,
+                    'port':test_port
+                }
+            }
     tests.append(test2)
 
-    test3 = {'type':'opinion_request','data':{'uuid':test_uuid}}
+    test3 = {
+                'type':'opinion_request',
+                'data':{
+                    'uuid':test_uuid
+                },
+                'sender':{
+                    'IP':test_IP,
+                    'port':test_port
+                }
+            }
     tests.append(test3)
 
 
     print linesep
     i = 0
     for test in tests:
-
         data = json.dumps(test, indent=4, 
                                 separators=(',', ':'))
         print 'TEST %s DATA: %s' % (i, data) + '\n\n'
