@@ -1,7 +1,7 @@
 # history.py
 
 import uuid
-import pprint
+from pprint import pprint
 import bottle
 
 class History:
@@ -20,13 +20,12 @@ class History:
         self.groupthink.register_handler(event='/vote_recieved',
                                          callback=self.process_vote)
 
-    def process_vote(self, data, sender):
+    def process_vote(self, data):
         ''' parse vote payload from message and add vote data to internal 
             datastructures. 
         '''
         print 'process_vote: adding vote data to history:'
-        pprint.pprint(data, indent=1)
-        # print 'BANANA PHONE'
+        print "%s" % data
 
         coin_id = str(data['coin_id'])
         time = int(data['time'])
@@ -34,8 +33,6 @@ class History:
         score = float(data['score'])
         
         self.vote_history[coin_id, time] = (node_uuid, score)
-
-        
 
 
 def create_history():

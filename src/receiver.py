@@ -35,8 +35,6 @@ class Receiver:
             error).
         '''
 
-        request = kwargs['request']
-
         try:
             message = kwargs['data']
         except KeyError:
@@ -46,18 +44,15 @@ class Receiver:
 
             if msgtype == "vote":
                 self.groupthink.process_event('/vote_recieved', 
-                                              data=message['data'],
-                                              sender=message['sender'])
+                                              data=message['data'])
             elif msgtype == 'opinion':
                 pass  # this type is only used for external auditing.
             elif msgtype == 'vote_request':
                 self.groupthink.process_event('/vote_requested', 
-                                              data=message['data'],
-                                              sender=message['sender'])
+                                              data=message['data'])
             elif msgtype == 'opinion_request':
                 self.groupthink.process_event('/opinion_requested', 
-                                              data=message['data'],
-                                              sender=message['sender'])
+                                              data=message['data'])
             else:
                 raise MessageError('got bad message!')
 

@@ -10,7 +10,9 @@ def main():
     '''
 
     linesep = '--------------------------------------------------\n\n'
-    endpoint = 'http://127.0.0.1:8080/mailbox'
+    remote_host = 'localhost'
+    remote_port = 1234
+    endpoint = 'http://' + remote_host + ':' + str(remote_port) + '/mailbox'
     tests = []
 
     # init test data variables
@@ -19,7 +21,7 @@ def main():
     test_coin = 'BTC'
     test_time = 12314121235
     test_score = 0.9
-    test_IP = 'localhost'
+    test_host = 'localhost'
     test_port = 9090
 
     test1 = {'type': 'vote', 'data': {'uuid': test_uuid,
