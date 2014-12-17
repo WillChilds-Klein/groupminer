@@ -16,15 +16,11 @@ class Prediction:
         ''' Attach to a Groupthink instance, and register event handlers.
         '''
         self.groupthink = groupthink
+        self.groupthink.register_handler(event='/vote_requested',
+                                         callback=self.process_request)
 
     def process_request(self, data):
         print 'got process_request in prediction.py!!'
-
-        # Return successfully to the user
-        return bottle.HTTPResponse(status=200,
-                                   body='[{"status": "success"},\
-                                          {"class": "prediction"},\
-                                          {"method": "process_request"')
 
     
 def create_prediction():

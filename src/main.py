@@ -18,22 +18,22 @@ def main():
         Parse cmd line args and set them to groupthink's nasmespace.
     '''
 
-    description = 'Welcome to Groupthink, a decentralized, reputation-based \
-                   content recommendation system.'
+    description = ('Welcome to Groupthink, a decentralized, reputation-based' +
+                   'content recommendation system.')
     portHelp = 'Specify instance port'
     uuidHelp = 'Specify instance uuid'
-    debugHelp = 'Run in debug mode for hot-swapping code on save during \
-                 development'
+    debugHelp = ('Run in debug mode for hot-swapping code on save during' +
+                 'development')
 
     print 'Parsing command line arguments.'
 
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--port', '-p', action="store", dest="port", \
+    parser.add_argument('-p', '--port', action="store", dest="port", 
                             default=8080, type=int, help=portHelp)
-    parser.add_argument('--uuid', '-u', action="store", dest="uuid_str", \
+    parser.add_argument('-u', '--uuid', action="store", dest="uuid_str", 
                             default=None, type=str, help=uuidHelp)
-    parser.add_argument('--debug-mode', '-d', action="store_true", \
-        dest="debug", default=False, help=debugHelp)
+    parser.add_argument('-reload', '--reload-enabled', action="store_true", 
+        dest="reload", default=False, help=debugHelp)
 
     clargs = vars(parser.parse_args())
 
@@ -75,8 +75,6 @@ def main():
 
     print 'Done initializing groupthink.\n'
 
-    g.run()
-
     cmd = 'curl -H "Content-Type: application/json" -d'
     cmd += ' {"somedata":"miles"}'
     cmd += ' http://localhost:8080/mailbox'
@@ -84,7 +82,9 @@ def main():
     print 'Try this command to test:\n'
     print '\t' + cmd
 
-    print '\nOk, running server...'
+    print '\nOk, running server...\n'
+
+    g.run()
 
 
 if __name__ == '__main__':

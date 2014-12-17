@@ -9,22 +9,30 @@ def main():
     '''
 
     linesep = '--------------------------------------------------\n\n'
-
     endpoint = 'http://127.0.0.1:8080/mailbox'
     tests = []
 
-    test_uuid = uuid.UUID('dfb3d8ee-6ec0-491b-9e79-6511205cd7cc')
-    uuid_str = str(test_uuid)
-    print uuid_str
 
-    test1 = {'type':'vote','data':{'uuid':uuid_str,     \
-                                   'coin_id':'BTC',     \
-                                   'time':12314121235,  \
+    # init test data variables
+    # test_uuid = str(uuid.uuid4())
+    test_uuid = 'dfb3d8ee-6ec0-491b-9e79-6511205cd7cc'
+    test_coin = 'BTC'
+    test_time = 12314121235
+    test_score = 0.9
+
+
+    test1 = {'type':'vote','data':{'uuid':test_uuid,     \
+                                   'coin_id':test_coin, \
+                                   'time':test_time,    \
                                    'score':0.9}}
-    test2 = {'type':'vote_request','data':{'uuid':uuid_str}}
-    test3 = {'type':'opinion_request','data':{'uuid':uuid_str}}
+    tests.append(test1)
 
-    tests = [test1, test2, test3]
+    test2 = {'type':'vote_request','data':{'uuid':test_uuid}}
+    tests.append(test2)
+
+    test3 = {'type':'opinion_request','data':{'uuid':test_uuid}}
+    tests.append(test3)
+
 
     print linesep
     i = 0

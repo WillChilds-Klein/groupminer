@@ -3,6 +3,13 @@
 
 import pprint
 
+class MessageError(Exception):
+    ''' Error caused by bad incoming message.
+    '''
+    def __init__(self, message):
+        self.message = message
+
+
 class Receiver:
 
     ''' Handles incoming messages.
@@ -28,12 +35,23 @@ class Receiver:
             message = kwargs['data']
         except KeyError:
             message = None
+        else:
+            msgtype = message["type"]
+            print 'processing message of type: %s' % msgtype
 
-        # print 'Receiver got message:'
-        # pprint.pprint(message)
-
-        if not message == None:
-            self.groupthink.process_message(message)
+            if msgtype == "vote":
+                self.groupthink.process_event('/vote_recieved', 
+                                              data=message['data'])
+            elif msgtype == 'opinion':
+                pass # this type is only used for external auditing.
+            elif msgtype == 'vote_request':
+                self.groupthink.process_event('/vote_requested', 
+                                              data=message['data'])
+            elif msgtype == 'opinion_request':
+                self.groupthink.process_event('/opinion_requested', 
+                                              data=message['data'])
+            else:
+                raise MessageError('got bad message!')
 
 
 def create_receiver():

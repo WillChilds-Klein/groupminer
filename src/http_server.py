@@ -16,7 +16,7 @@ class Server:
 
     def __init__(self):
         self.app = None
-        self.debug = None
+        self.reload = None
 
     def attach_groupthink(self, groupthink):
         ''' Attach to a Groupthink insance and register event handlers.
@@ -31,13 +31,16 @@ class Server:
         ''' Register each possible event with the groupthink instance.
         '''
         self.groupthink.register_event('/mailbox')
+        self.groupthink.register_event('/vote_recieved')
+        self.groupthink.register_event('/vote_requested')
+        self.groupthink.register_event('/opinion_requested')
 
     def build_routes(self):
         ''' Tell bottle which routes to listen to. 
         '''
-        @bottle.route('/mailbox', method='POST')
+        @bottle.post('/mailbox')
         def mailbox():
-            ''' All messages from peers go to /mailbox.
+            ''' All vote submission messages from peers go to /mailbox.
                 Because HTTP is a simple wrapper, this method just starts the
                 event chain for the /mailbox event.
             '''
@@ -51,13 +54,11 @@ class Server:
 
             # Return successfully to the user
             return bottle.HTTPResponse(status=200,
-                                       body='[{"status": "success"},\
-                                              {"class": "http_server"},\
-                                              {"method": "build_routes"')
+                                       body='{"status": "success"}')
 
     def run(self, **kwargs):
-        self.app = bottle.run(reloader=self.groupthink.debug, \
-                              port=self.groupthink.port,      \
+        self.app = bottle.run(reloader=self.groupthink.reload,
+                              port=self.groupthink.port,
                               **kwargs)
 
 

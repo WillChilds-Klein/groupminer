@@ -16,14 +16,16 @@ class History:
         ''' Attach to a Groupthink instance, and register event handlers.
         '''
         self.groupthink = groupthink
+        self.groupthink.register_handler(event='/vote_recieved',
+                                         callback=self.process_vote)
 
-    def add_vote(self, data):
+    def process_vote(self, data):
         ''' parse vote payload from message and add vote data to internal 
             datastructures. 
         '''
-        print 'add_vote: adding vote data to history:'
+        print 'process_vote: adding vote data to history:'
         pprint.pprint(data, indent=1)
-        print 'BANANA PHONE'
+        # print 'BANANA PHONE'
 
         coin_id = str(data['coin_id'])
         time = int(data['time'])
