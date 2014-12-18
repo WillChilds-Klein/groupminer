@@ -4,6 +4,7 @@ import requests
 import json
 import uuid
 
+
 def main():
     ''' each request is a test case...kinda
     '''
@@ -25,54 +26,53 @@ def main():
     test_host = 'localhost'
     test_port = 9090
 
-
-    test1 = {   
-                'type':'vote',
-                'data':{
-                    'uuid':test_uuid,
-                    'coin_id':test_coin,
-                    'time':test_time,
-                    'score':test_score
-                },
-                'sender':{
-                    'host':test_host,
-                    'port':test_port
+    test1 = {
+        'type': 'vote',
+        'data': {
+            'uuid': test_uuid,
+            'coin_id': test_coin,
+            'time': test_time,
+            'score': test_score
+        },
+        'sender': {
+                    'host': test_host,
+                    'port': test_port
                 }
-            }
+    }
     tests.append(test1)
 
     test2 = {
-                'type':'vote_request',
-                'data':{
-                    'uuid':test_uuid
-                },
-                'sender':{
-                    'host':test_host,
-                    'port':test_port
+        'type': 'vote_request',
+        'data': {
+            'uuid': test_uuid
+        },
+        'sender': {
+                    'host': test_host,
+                    'port': test_port
                 }
-            }
+    }
     tests.append(test2)
 
     test3 = {
-                'type':'opinion_request',
-                'data':{
-                    'uuid':test_uuid
-                },
-                'sender':{
-                    'host':test_host,
-                    'port':test_port
-                }
-            }
+        'type': 'opinion_request',
+        'data': {
+            'uuid': test_uuid
+        },
+        'sender': {
+            'host': test_host,
+            'port': test_port
+        }
+    }
     tests.append(test3)
 
     test4 = {
-                'type':'none',
-                'data':{},
-                'sender':{
-                    'host':test_host,
-                    'port':test_port
-                }
-            }
+        'type':'none',
+        'data':{},
+        'sender':{
+            'host':test_host,
+            'port':test_port
+        }
+    }
     tests.append(test4)
 
 
@@ -81,23 +81,20 @@ def main():
     for test in tests:
         headers = {'content-type': 'application/json'}
         data = json.dumps(test)
-
-        r = requests.post(url=instance_url, data=data, headers=headers)
-
+        
         nice_data = json.dumps(test, indent=4, 
                                 separators=(',', ':'))
         print 'TEST %s DATA: %s' % (i, nice_data) + '\n\n'
 
+        r = requests.post(url=instance_url, data=data, headers=headers)
         try:
             r_json = r.json()
-            print 'RESPONSE: %s' % json.dumps(r_json, indent=4, \
-                                                      separators=(',', ':'))
+            print 'RESPONSE: %s' % json.dumps(r_json, indent=4,
+                                              separators=(',', ':'))
         except:
             "TEST: invalid response to test: %s" % str(test)
-
         print linesep
         i += 1
-
 
 
 if __name__ == '__main__':

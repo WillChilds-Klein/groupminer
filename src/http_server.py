@@ -5,7 +5,7 @@
 import bottle
 import json
 import pprint
-
+import socket
 
 class Server:
 
@@ -67,9 +67,13 @@ class Server:
                                        body='{"status": "success"}')
 
     def run(self, **kwargs):
-        self.app = bottle.run(reloader=self.groupthink.reload,
-                              port=self.groupthink.port,
-                              **kwargs)
+        try:
+            self.app = bottle.run(reloader=self.groupthink.reload,
+                                  port=self.groupthink.port,
+                                  **kwargs)
+        except socket.error as e:
+            print 'Socket error: %s' % e
+
 
 
 def create_server():

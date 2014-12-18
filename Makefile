@@ -10,5 +10,10 @@ groupthink: src/*.py
 run:
 	./Groupthink
 
+launch:
+	$(python controllers/launch.py --n 10 --p 54632)
+
 clean:
+	pkill -f main.py
+	rm logs/*
 	$(RM) Groupthink src/*.pyc

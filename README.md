@@ -1,3 +1,45 @@
+Testing
+====================
+## Launch a cluster
+Launch an N instance cluster using the launch.py controller, like so:
+  
+  ```
+  python controllers/launch.py --n N --p STARTINGPORT
+  ```
+
+Or with preset N = 10:
+
+  ```
+  make launch
+  ```
+
+This script will try to start N processes with increasing sequential port
+numbers, starting at STARTINGPORT. It also attempts to ping every node
+using the /ping endpoint.
+
+Further testing infrastructure should build on this.
+
+**Warning**: Note that this leaves zomebie processes. Easiest cleanup
+is `make clean` which calls `pkill -f main.py`
+
+Each port process has a logfile at `logs/node-PORT.log`, which `make clean`
+deletes.
+
+## Load Data
+
+For example data, I downloaded a .csv of historical daily bitcoin mining
+difficulty (numbers do not not vary much day-to-day). You can find it at
+`/data/bitcoindifficulty.csv`. To load this file, use the `src/data.py`
+module. Check the `examplefunc()` function in there to see how to use
+it:
+
+  ```python
+  def examplefunc():
+    ds = DataSource('bitcoindifficulty.csv')
+    for date, difficulty in ds.tvtuples:
+        print date, difficulty
+  ```
+
 Development
 =====================
 ## Git workflow:
