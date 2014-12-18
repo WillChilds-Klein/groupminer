@@ -25,6 +25,21 @@ is `make clean` which calls `pkill -f main.py`
 Each port process has a logfile at `logs/node-PORT.log`, which `make clean`
 deletes.
 
+## Load Data
+
+For example data, I downloaded a .csv of historical daily bitcoin mining
+difficulty (numbers do not not vary much day-to-day). You can find it at
+`/data/bitcoindifficulty.csv`. To load this file, use the `src/data.py`
+module. Check the `examplefunc()` function in there to see how to use
+it:
+
+  ```python
+  def examplefunc():
+    ds = DataSource('bitcoindifficulty.csv')
+    for date, difficulty in ds.tvtuples:
+        print date, difficulty
+  ```
+
 Development
 =====================
 ## Git workflow:
