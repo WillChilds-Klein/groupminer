@@ -19,6 +19,7 @@ class Groupthink:
         self.history = None
         self.prediction = None
         self.opinion = None
+        self.mailer = None
         self.handlers = {}
 
         try:
@@ -32,6 +33,7 @@ class Groupthink:
             self.uuid = uuid.UUID(clargs['uuid_str'])
         else:
             self.uuid = uuid.uuid4()
+        self.hostname = clargs['hostname']
         self.reload = clargs['reload']
 
     def run(self):
@@ -103,6 +105,13 @@ class Groupthink:
 
         opinion.attach_groupthink(self)
         self.opinion = opinion
+
+    def attach_mailer(self, mailer):
+        if self.mailer:
+            raise StartupError("Trying to attach second mailer.")
+
+        mailer.attach_groupthink(self)
+        self.mailer = mailer
 
 
 def create_groupthink(clargs=None):

@@ -47,16 +47,20 @@ class Server:
                 event chain for the /mailbox event.
             '''
             try:
-                json_data = json.loads(bottle.request.body.read())
+                json_data = bottle.request.json
             except:
+                print 'invalid message! request body: %s' % bottle.request.body
                 bottle.abort(code=400, text='Invalid JSON.')
 
+            print 'raw JSON: %s' % json_data
+
             # Start the event chain
-            self.groupthink.process_event('/mailbox', data=json_data)
+            self.groupthink.process_event('/mailbox', json_data=json_data)
 
             # Return successfully to the user
             return bottle.HTTPResponse(status=200,
                                        body='{"status": "success"}')
+
         @bottle.post('/ping')
         def ping():
             return bottle.HTTPResponse(status=200,

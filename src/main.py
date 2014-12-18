@@ -12,6 +12,7 @@ import receiver
 import history
 import prediction
 import opinion
+import mailer
 
 def main():
     ''' Launch all the objects, attaching them to each other.
@@ -21,6 +22,7 @@ def main():
     description = ('Welcome to Groupthink, a decentralized, reputation-based' +
                    'content recommendation system.')
     portHelp = 'Specify instance port'
+    hostnameHelp = 'Specify hostname or IPv4 address of instance'
     uuidHelp = 'Specify instance uuid'
     debugHelp = ('Run in debug mode for hot-swapping code on save during' +
                  'development')
@@ -30,6 +32,8 @@ def main():
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-p', '--port', action="store", dest="port", 
                             default=8080, type=int, help=portHelp)
+    parser.add_argument('--hostname', action='store', dest='hostname',
+                            default='localhost', help=hostnameHelp)
     parser.add_argument('-u', '--uuid', action="store", dest="uuid_str", 
                             default=None, type=str, help=uuidHelp)
     parser.add_argument('-reload', '--reload-enabled', action="store_true", 
@@ -58,6 +62,9 @@ def main():
     print '\t Creating opinion object.'
     o = opinion.create_opinion()
 
+    print '\t Creating mailer object.'
+    m = mailer.create_mailer()
+
     print '\t Attaching server to groupthink.'
     g.attach_server(s)
 
@@ -72,6 +79,9 @@ def main():
 
     print '\t Attaching opinion to groupthink.'
     g.attach_opinion(o)
+
+    print '\t Attaching mailer to groupthink.'
+    g.attach_mailer(m)
 
     print 'Done initializing groupthink.\n'
 

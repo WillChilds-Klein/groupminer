@@ -7,13 +7,14 @@ import uuid
 def main():
     ''' each request is a test case...kinda
     '''
-
     linesep = '--------------------------------------------------\n\n'
-    remote_host = 'localhost'
-    remote_port = 1234
-    endpoint = 'http://' + remote_host + ':' + str(remote_port) + '/mailbox'
     tests = []
 
+    instance_host = 'localhost'
+    instance_port = 8080
+    instance_endpoint = '/mailbox'
+    instance_url = ('http://' + instance_host + ':' + str(instance_port) + 
+                                instance_endpoint)
 
     # init test data variables
     # test_uuid = str(uuid.uuid4())
@@ -64,15 +65,28 @@ def main():
             }
     tests.append(test3)
 
+    test4 = {
+                'type':'none',
+                'data':{},
+                'sender':{
+                    'host':test_host,
+                    'port':test_port
+                }
+            }
+    tests.append(test4)
+
 
     print linesep
     i = 0
     for test in tests:
-        data = json.dumps(test, indent=4, 
-                                separators=(',', ':'))
-        print 'TEST %s DATA: %s' % (i, data) + '\n\n'
+        headers = {'content-type': 'application/json'}
+        data = json.dumps(test)
 
-        r = requests.post(url=endpoint, data=data)
+        r = requests.post(url=instance_url, data=data, headers=headers)
+
+        nice_data = json.dumps(test, indent=4, 
+                                separators=(',', ':'))
+        print 'TEST %s DATA: %s' % (i, nice_data) + '\n\n'
 
         try:
             r_json = r.json()

@@ -3,6 +3,8 @@
 from pprint import pprint
 import uuid
 import bottle
+import requests
+import json
 
 class Mailer:
 
@@ -22,29 +24,43 @@ class Mailer:
         self.groupthink.register_handler(event='/mailbox',
                                          callback=self.map_uuid)
 
+    def map_uuid(self, *args, **kwargs):
+        try:
+            message = kwargs['json_data']
+        except KeyError:
+            print 'uh oh! no json_data in message!'
+        else:
+            if 'uuid' not in message['data']:
+                pass # of type none, TODO: move uuid into sender field!
+            else:
+                remote_uuid = message['data']['uuid']
+                remote_info = (message['sender']['host'],
+                               message['sender']['port'])
+
+                self.uuid_map[remote_uuid] = remote_info
+                print 'mapped %s to %s' % (remote_uuid,remote_info)
+
     def send_data(self, data, remote_uuid, endpoint='/mailbox'):
         ''' send data via http to 
         '''
-        if remote_uuid not in uuid_map:
+        print 'uuid of recipient %s' % remote_uuid
+
+        if remote_uuid not in self.uuid_map:
             raise UnkownHost("don't have host/port info for %s in uuid_map!" 
                             % remote_uuid)
         else:
-            remote_host = uuid_map[remote_uuid][0]
-            remote_port = uuid_map[remote_uuid][1]
-            url = 'http://' + remote_host + ':' + remote_port + endpoint
+            remote_host = self.uuid_map[remote_uuid][0]
+            remote_port = self.uuid_map[remote_uuid][1]
+
+            url = ('http://' + remote_host + ':' + str(remote_port) + endpoint)
+            print 'url: ' + url
 
             payload_data = json.dumps(data, indent=4, separators=(',', ':'))
-            requests.post(url=endpoint, data=payload_data)
+            headers = {'content-type': 'application/json'}
 
-    def map_uuid(self, data):
-        try:
-            message = kwargs['data']
-        except KeyError:
-            message = None
-        else:
-            remote_uuid = message['data']['uuid']
-            remote_info = (message['sender']['host'],
-                           message['sender'],['port'])
-            uuid_map[remote_uuid] = remote_info
+            requests.post(url=url, data=payload_data, headers=headers)
+            print 'sent %s\n TO\n %s' % (payload_data, url)
 
-            print 'mapped %s to %s' % (remote_uuid,remote_info)
+def create_mailer():
+    mailer = Mailer()
+    return mailer

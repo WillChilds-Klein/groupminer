@@ -36,13 +36,17 @@ class Receiver:
         '''
 
         try:
-            message = kwargs['data']
+            message = kwargs['json_data']
         except KeyError:
             message = None
         else:
-            msgtype = message["type"]
+            for key in ['type','data','sender']:
+                if key not in message:
+                    raise MessageError('invalid message! not all keys present!')
 
-            if msgtype == "vote":
+            msgtype = message['type']
+
+            if msgtype == 'vote':
                 self.groupthink.process_event('/vote_recieved', 
                                               data=message['data'])
             elif msgtype == 'opinion':
@@ -53,8 +57,11 @@ class Receiver:
             elif msgtype == 'opinion_request':
                 self.groupthink.process_event('/opinion_requested', 
                                               data=message['data'])
+            elif msgtype == 'none':
+                print 'got message of type none!'
+                pass # dummy type for testing
             else:
-                raise MessageError('got bad message!')
+                raise MessageError('message has unkown type!')
 
 
 def create_receiver():
