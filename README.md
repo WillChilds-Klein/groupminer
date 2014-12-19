@@ -84,8 +84,8 @@ Python uses virtualenv to manage packages.
 First time using (this is assuming you don't have virtualenvburrito)
 
   ```
-  virtualenv groupthink
-  source groupthink/bin/activate
+  virtualenv groupthink-venv
+  source groupthink-venv/bin/activate
   pip install -r requirements.txt
   ```
 
