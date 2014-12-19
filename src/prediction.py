@@ -25,16 +25,12 @@ class Prediction:
 
         remote_uuid = data['uuid']
 
-        pred = {
-                    "type":"none",
-                    "data":{},
-                    "sender":{
-                        "hostname":self.groupthink.hostname, 
-                        "port":self.groupthink.port
-                    }
-                }
-        self.groupthink.process_event('/send', data=pred,
-                                remote_uuid=remote_uuid)
+        message_type = 'none'
+        message_data = {}
+
+        self.groupthink.process_event('/send', type=message_type, 
+                                               data=message_data,
+                                               remote_uuid=remote_uuid)
 
     
 def create_prediction():

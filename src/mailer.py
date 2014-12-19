@@ -6,6 +6,12 @@ import bottle
 import requests
 import json
 
+class UnknownUUID(Exception):
+    ''' Error caused by bad incoming message.
+    '''
+    def __init__(self, message):
+        self.message = message
+
 class Mailer:
 
     ''' manages outgoing messages.
@@ -20,7 +26,7 @@ class Mailer:
         '''
         self.groupthink = groupthink
         self.groupthink.register_handler(event='/send',
-                                         callback=self.send_data)
+                                         callback=self.send_message)
         self.groupthink.register_handler(event='/mailbox',
                                          callback=self.map_uuid)
 
@@ -31,7 +37,8 @@ class Mailer:
             print 'uh oh! no json_data in message!'
         else:
             if 'uuid' not in message['data']:
-                pass # of type none, TODO: move uuid into sender field!
+                print 'tried to map_uuid, but no uuid in message data!!'
+                pass # probably of type none
             else:
                 remote_uuid = message['data']['uuid']
                 remote_info = (message['sender']['host'],
@@ -40,26 +47,36 @@ class Mailer:
                 self.uuid_map[remote_uuid] = remote_info
                 print 'mapped %s to %s' % (remote_uuid,remote_info)
 
-    def send_data(self, data, remote_uuid, endpoint='/mailbox'):
-        ''' send data via http to 
+    def send_message(self, type, data, remote_uuid, endpoint='/mailbox'):
+        ''' send data via http to remote_uuid's hostname/port
         '''
-        print 'uuid of recipient %s' % remote_uuid
-
         if remote_uuid not in self.uuid_map:
-            raise UnkownHost("don't have host/port info for %s in uuid_map!" 
+            raise UnknownUUID("don't have host/port info for %s in uuid_map!" 
                             % remote_uuid)
-        else:
-            remote_host = self.uuid_map[remote_uuid][0]
-            remote_port = self.uuid_map[remote_uuid][1]
 
-            url = ('http://' + remote_host + ':' + str(remote_port) + endpoint)
-            print 'url: ' + url
+        sender = {
+            'host': self.groupthink.hostname, 
+            'port': self.groupthink.port
+        }
 
-            payload_data = json.dumps(data, indent=4, separators=(',', ':'))
-            headers = {'content-type': 'application/json'}
+        message = {
+            'type': type,
+            'data': data,
+            'sender': sender
+        }
 
-            requests.post(url=url, data=payload_data, headers=headers)
-            print 'sent %s\n TO\n %s' % (payload_data, url)
+        remote_host = self.uuid_map[remote_uuid][0]
+        remote_port = self.uuid_map[remote_uuid][1]
+        url = ('http://' + remote_host + ':' + str(remote_port) + endpoint)
+
+        headers = {'content-type': 'application/json'}
+        payload = json.dumps(message)
+
+        # try this ----v ; remove json.dumps shit
+        # requests.post(url=url, json=data)
+
+        requests.post(url=url, data=payload, headers=headers)
+        print 'posted <%s> TO %s' % (payload, url)
 
 def create_mailer():
     mailer = Mailer()

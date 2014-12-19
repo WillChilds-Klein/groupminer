@@ -3,16 +3,6 @@
 
 import pprint
 
-
-class MessageError(Exception):
-
-    ''' Error caused by bad incoming message.
-    '''
-
-    def __init__(self, message):
-        self.message = message
-
-
 class Receiver:
 
     ''' Handles incoming messages.
@@ -40,12 +30,7 @@ class Receiver:
         except KeyError:
             message = None
         else:
-            for key in ['type','data','sender']:
-                if key not in message:
-                    raise MessageError('invalid message! not all keys present!')
-
             msgtype = message['type']
-
             if msgtype == 'vote':
                 self.groupthink.process_event('/vote_recieved', 
                                               data=message['data'])

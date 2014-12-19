@@ -7,6 +7,12 @@ import json
 import pprint
 import socket
 
+class MessageError(Exception):
+    ''' Error caused by bad incoming message.
+    '''
+    def __init__(self, message):
+        self.message = message
+
 class Server:
 
     ''' Responsible for serving all HTTP requests and returning responses.
@@ -52,7 +58,12 @@ class Server:
                 print 'invalid message! request body: %s' % bottle.request.body
                 bottle.abort(code=400, text='Invalid JSON.')
 
-            print 'raw JSON: %s' % json_data
+            print ('raw JSON: %s' % json.dumps(json_data, indent=2, 
+                                               separators=(',', ':')))
+
+            for key in ['type','data','sender']:
+                if key not in json_data:
+                    raise MessageError('invalid message! not all keys present!')
 
             # Start the event chain
             self.groupthink.process_event('/mailbox', json_data=json_data)

@@ -3,6 +3,7 @@
 import uuid
 from pprint import pprint
 import bottle
+import json
 
 class History:
 
@@ -25,7 +26,7 @@ class History:
             datastructures. 
         '''
         print 'process_vote: adding vote data to history:'
-        print "%s" % data
+        print "%s" % json.dumps(data, indent=2, separators=(',', ':'))
 
         coin_id = str(data['coin_id'])
         time = int(data['time'])

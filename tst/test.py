@@ -29,15 +29,15 @@ def main():
     test1 = {
         'type': 'vote',
         'data': {
-            'uuid': test_uuid,
             'coin_id': test_coin,
             'time': test_time,
-            'score': test_score
+            'score': test_score,
+            'uuid': test_uuid
         },
         'sender': {
-                    'host': test_host,
-                    'port': test_port
-                }
+            'host': test_host,
+            'port': test_port,
+        }
     }
     tests.append(test1)
 
@@ -47,9 +47,9 @@ def main():
             'uuid': test_uuid
         },
         'sender': {
-                    'host': test_host,
-                    'port': test_port
-                }
+            'host': test_host,
+            'port': test_port,
+        }
     }
     tests.append(test2)
 
@@ -60,41 +60,41 @@ def main():
         },
         'sender': {
             'host': test_host,
-            'port': test_port
+            'port': test_port,
         }
     }
     tests.append(test3)
 
     test4 = {
         'type':'none',
-        'data':{},
-        'sender':{
-            'host':test_host,
-            'port':test_port
+        'data':{
+            'uuid': test_uuid
+        },
+        'sender': {
+            'host': test_host,
+            'port': test_port,
         }
     }
     tests.append(test4)
 
-
-    print linesep
     i = 0
     for test in tests:
         headers = {'content-type': 'application/json'}
         data = json.dumps(test)
-        
-        nice_data = json.dumps(test, indent=4, 
-                                separators=(',', ':'))
+
+        print linesep
+        nice_data = json.dumps(test, indent=2, separators=(',', ':'))
         print 'TEST %s DATA: %s' % (i, nice_data) + '\n\n'
 
         r = requests.post(url=instance_url, data=data, headers=headers)
         try:
             r_json = r.json()
-            print 'RESPONSE: %s' % json.dumps(r_json, indent=4,
-                                              separators=(',', ':'))
+            print ('RESPONSE: %s' % json.dumps(r_json, indent=2,
+                                                       separators=(',', ':')))
         except:
             "TEST: invalid response to test: %s" % str(test)
-        print linesep
         i += 1
+    print linesep
 
 
 if __name__ == '__main__':
