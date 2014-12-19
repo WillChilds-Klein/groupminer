@@ -69,14 +69,10 @@ class Mailer:
         remote_port = self.uuid_map[remote_uuid][1]
         url = ('http://' + remote_host + ':' + str(remote_port) + endpoint)
 
-        headers = {'content-type': 'application/json'}
-        payload = json.dumps(message)
-
-        # try this ----v ; remove json.dumps shit
-        # requests.post(url=url, json=data)
-
-        requests.post(url=url, data=payload, headers=headers)
-        print 'posted <%s> TO %s' % (payload, url)
+        requests.post(url=url, json=message)
+        print 'POSTED %s TO %s' % (json.dumps(message, indent=2, 
+                                                      separators=(',', ':')), 
+                                     url)
 
 def create_mailer():
     mailer = Mailer()

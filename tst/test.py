@@ -8,7 +8,10 @@ import uuid
 def main():
     ''' each request is a test case...kinda
     '''
-    linesep = '--------------------------------------------------\n\n'
+    test_sep = ('--------------------------------------------------\n' +
+               'TEST %s\n' +
+               '=======\n')
+    test_end = '--------------------------------------------------'
     tests = []
 
     instance_host = 'localhost'
@@ -44,6 +47,8 @@ def main():
     test2 = {
         'type': 'vote_request',
         'data': {
+            'coin_id': test_coin,
+            'time': test_time,
             'uuid': test_uuid
         },
         'sender': {
@@ -65,6 +70,7 @@ def main():
     }
     tests.append(test3)
 
+
     test4 = {
         'type':'none',
         'data':{
@@ -79,23 +85,19 @@ def main():
 
     i = 0
     for test in tests:
-        headers = {'content-type': 'application/json'}
-        data = json.dumps(test)
-
-        print linesep
+        print test_sep % i
         nice_data = json.dumps(test, indent=2, separators=(',', ':'))
-        print 'TEST %s DATA: %s' % (i, nice_data) + '\n\n'
+        print 'REQUEST: %s' % nice_data
 
-        r = requests.post(url=instance_url, data=data, headers=headers)
+        r = requests.post(url=instance_url, json=test)
         try:
             r_json = r.json()
             print ('RESPONSE: %s' % json.dumps(r_json, indent=2,
                                                        separators=(',', ':')))
         except:
-            "TEST: invalid response to test: %s" % str(test)
+            "RESPONSE: invalid response to test: %s" % str(test)
         i += 1
-    print linesep
-
+    print test_end
 
 if __name__ == '__main__':
     main()

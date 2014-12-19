@@ -25,8 +25,17 @@ class Prediction:
 
         remote_uuid = data['uuid']
 
-        message_type = 'none'
-        message_data = {}
+        coin = data['coin_id']
+        time = data['time']
+        score = 0.9 # here's where we'd perform the computation.
+
+        message_type = 'vote'
+        message_data = {
+            'coin_id': coin,
+            'time': time,
+            'score': score,
+            'uuid': str(self.groupthink.uuid)
+        }
 
         self.groupthink.process_event('/send', type=message_type, 
                                                data=message_data,
