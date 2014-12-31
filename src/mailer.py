@@ -71,8 +71,8 @@ class Mailer:
 
         requests.post(url=url, json=message)
         print 'POSTED %s TO %s' % (json.dumps(message, indent=2, 
-                                                      separators=(',', ':')), 
-                                     url)
+                                                       separators=(',', ':')), 
+                                   url)
 
 def create_mailer():
     mailer = Mailer()

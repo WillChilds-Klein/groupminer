@@ -47,14 +47,21 @@ class Node:
 
     def ping(self):
         endpoint = 'http://%s:%s/ping' % (self.ip, self.port)
-        msg = {'hello':'world'}
+        msg = {
+            'type': 'ping',
+            'data': {},
+            'sender': {
+                'ip': self.ip,
+                'port': self.port
+            }
+        }
 
         print endpoint
 
         success = False
 
         try:
-            r = requests.post(url=endpoint, data=json.dumps(msg))
+            r = requests.post(url=endpoint, json=msg)
             r.json()
             json.dumps(r.json(), indent=4, separators=(',', ':'))
             print 'Ping Successful'
@@ -83,7 +90,7 @@ def launch(n, startp):
 
     nodes = []
     for nodei in range(n):
-        uuidval = str(uuid.uuid1())
+        uuidval = str(uuid.uuid4())
         port = startp + nodei
 
         print 'Attempting create newnode(%s, %s, %s)' % (LOCALADDR, uuidval, port)
@@ -102,7 +109,7 @@ def launch(n, startp):
     pingall()
 
 def sanitydebug():
-    print '-' * 35 + ' Debug:'
+    print '-' * 35 + ' \nDebug:'
     print '\t Cur dir: %s' % os.path.realpath(os.path.curdir)
     print '-' * 35
 

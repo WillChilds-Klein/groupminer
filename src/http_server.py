@@ -58,8 +58,8 @@ class Server:
                 print 'invalid message! request body: %s' % bottle.request.body
                 bottle.abort(code=400, text='Invalid JSON.')
 
-            print ('raw JSON: %s' % json.dumps(json_data, indent=2, 
-                                               separators=(',', ':')))
+            # print ('raw JSON: %s' % json.dumps(json_data, indent=2, 
+            #                                    separators=(',', ':')))
 
             for key in ['type','data','sender']:
                 if key not in json_data:
@@ -74,6 +74,8 @@ class Server:
 
         @bottle.post('/ping')
         def ping():
+            print 'GOT PING: %s' % json.dumps(json_data, indent=2, 
+                                                         separators=(',', ':'))
             return bottle.HTTPResponse(status=200,
                                        body='{"status": "success"}')
 

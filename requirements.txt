@@ -3,6 +3,7 @@ args==0.1.0
 bottle==0.12.7
 click==3.3
 clint==0.4.1
+envoy==0.0.3
 requests==2.5.0
 stevedore==0.15
 virtualenv==1.11.6
