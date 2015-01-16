@@ -1,4 +1,4 @@
 Groupthink
-venv/
+groupthink-venv/
 src/*.pyc
 logs/*
