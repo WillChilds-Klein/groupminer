@@ -2,16 +2,16 @@ Testing
 ====================
 ## Launch a cluster
 Launch an N instance cluster using the launch.py controller, like so:
-  
-  ```
-  python controllers/launch.py --n N --p STARTINGPORT
-  ```
+
+```
+python controllers/launch.py --n N --p STARTINGPORT
+```
 
 Or with preset N = 10:
 
-  ```
-  make launch
-  ```
+```
+make launch
+```
 
 This script will try to start N processes with increasing sequential port
 numbers, starting at STARTINGPORT. It also attempts to ping every node
@@ -33,12 +33,12 @@ difficulty (numbers do not not vary much day-to-day). You can find it at
 module. Check the `examplefunc()` function in there to see how to use
 it:
 
-  ```python
-  def examplefunc():
-    ds = DataSource('bitcoindifficulty.csv')
-    for date, difficulty in ds.tvtuples:
-        print date, difficulty
-  ```
+```python
+def examplefunc():
+  ds = DataSource('bitcoindifficulty.csv')
+  for date, difficulty in ds.tvtuples:
+      print date, difficulty
+```
 
 Development
 =====================
@@ -58,24 +58,26 @@ Development
 
 4. Rebase branch (this gives us a clean commit log, no extra merge commits)
 
-  ```
-  git checkout master
-  git pull
-  git checkout featurebranch
-  git rebase -i master
-  (And fix any conflicts in interactive vim console)
-  ```
+```
+git checkout master
+git pull
+git checkout featurebranch
+git rebase -i master
+(And fix any conflicts in interactive vim console)
+```
 
 5. Merge branch into master (because of rebase, will not be merge conflicts here)
 
-  ```
-  git checkout master
-  git merge featurebranch
-  ```
+```
+git checkout master
+git merge featurebranch
+```
 
 6. Push!
 
-  `git push`
+```
+git push
+```
 
 ## Virtualenv:
 
@@ -83,15 +85,17 @@ Python uses virtualenv to manage packages.
 
 First time using (this is assuming you don't have virtualenvburrito)
 
-  ```
-  virtualenv groupthink-venv
-  source groupthink-venv/bin/activate
-  pip install -r requirements.txt
-  ```
+```
+virtualenv groupthink-venv
+source groupthink-venv/bin/activate
+pip install -r requirements.txt
+```
 
 After installing a dependency, while in virtualenv and the GroupMiner application root directory:
 
-  `pip freeze > requirements.txt`
+```
+pip freeze > requirements.txt
+```
 
 ## "Building"/Running
 
@@ -293,16 +297,16 @@ Potential Vulnerabilities
 Milestones
 ----------
 ### Part 1 ###
-  [ ] Messaging System
-  [ ] Database
+  - [ ] Messaging System
+  - [ ] Database
 
 ### Part 2 ###
-  [ ] Expected Profitability Function (multiple examples)
-  [ ] Subjective Utility Function
+  - [ ] Expected Profitability Function (multiple examples)
+  - [ ] Subjective Utility Function
 
 ### Part 3 ###
-  [ ] Vote Aggregator
-  [ ] Mining Suite
+  - [ ] Vote Aggregator
+  - [ ] Mining Suite
 
 Further Work
 ------------
@@ -339,4 +343,3 @@ Miscellaneous
 [5]: http://www.numpy.org/
 [6]: http://mininet.org/
 [7]: http://www.sqlite.org/
-
